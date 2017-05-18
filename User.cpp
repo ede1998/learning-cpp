@@ -13,9 +13,11 @@
 User::User(const string &m_name, const string &pwd) : m_name(m_name) {
     hash<string> hashedPwd = hash<string>();
     m_pwd = hashedPwd(pwd);
+    m_accounts = new vector<Account>();
 }
 
 User::~User() {
+    delete m_accounts;
 }
 /**
  * Compares the hash of parameter pwd with the internally stored password hash.

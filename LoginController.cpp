@@ -22,16 +22,23 @@ LoginController::~LoginController() {
  * Adds new user for LoginController.
  * @param name Username
  * @param pwd Password for the user
+ * @return True if new user was added successfully, false otherwise
  */
-void LoginController::addUser(string name, string pwd) {
+bool LoginController::addUser(string name, string pwd) {
+    for (int i = 0; i < m_users->size(); i++) {
+        if ((*m_users)[i].getName() == name) {
+            return false;
+        }
+    }
     m_users->emplace_back(User(name, pwd));
+        return true;
 }
 
 /**
  * Returns the username of the logged in user. If no user is logged in, nullptr is returned.
  * @return username of logged in user or nullptr if no user is logged in
  */
-string LoginController::loggedInAs() {
+const string LoginController::loggedInAs() const {
     if (m_activeUser == nullptr)
         return nullptr;
     return m_activeUser->getName();
