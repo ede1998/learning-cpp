@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "LoginController.h"
+#include "user/LoginController.h"
 
 class Menu {
 public:
@@ -13,10 +13,13 @@ public:
 private:
     LoginController * m_lc;
 
-
-
     void login();
-    void createAccount();
+    void createUserAccount();
     void printMain();
+    void showAccounts();
+
+    void manageAccounts();
+
+    void createBankAccount();
 };
 

@@ -6,7 +6,15 @@
 
 InstantAccessSavingsAccount::InstantAccessSavingsAccount(User *owner, User *contact, const string &bankCode, int minimumTerm)
         : Account(owner, contact, bankCode),
-          minimumTerm(minimumTerm)
+          m_minimumTerm(minimumTerm)
 {
+
+}
+
+int InstantAccessSavingsAccount::getMinimumTerm() const {
+    return m_minimumTerm;
+}
+
+InstantAccessSavingsAccount::~InstantAccessSavingsAccount() {
 
 }

@@ -37,3 +37,18 @@ bool User::isCorrectPassword(string pwd) {
 string User::getName() {
     return m_name;
 }
+
+int User::getAccountsLength() {
+    return m_accounts->size();
+}
+
+const Account * User::getAccount(int index) {
+    if ((index < 0) || (index >= m_accounts->size())) {
+        return nullptr;
+    }
+    return &(*m_accounts)[index];
+}
+
+void User::addAccount(const Account &acc) {
+        m_accounts->emplace_back(acc);
+}

@@ -13,3 +13,7 @@ CheckAccount::CheckAccount(User *owner, User *contact, const string &bankCode, i
 int CheckAccount::getOverdraft() const {
     return m_overdraft;
 }
+
+CheckAccount::~CheckAccount() {
+
+}

@@ -6,14 +6,16 @@
 
 #include <string>
 #include <ctime>
-#include "User.h"
+#include "../user/User.h"
 
 using namespace std;
 
+class User;
+
 class Account {
 public:
-    static const string name = 0;
-    static const string description = 0;
+    static constexpr char * name = "";
+    static constexpr char * description = "";
 
     const string accountNumber;
     const string bankCode;
@@ -21,13 +23,13 @@ public:
     const User * const owner;
     const time_t inaugurationDate;
 
-    Account(User * owner, User * contact, string bankCode);
     ~Account();
     int getBalance() const;
     double getRateOfInterest() const;
     void changeContact(User * newContact);
     const User * const  getContact() const;
 protected:
+    Account(User * owner, User * contact, string bankCode);
     int m_balance;
     User * m_contact;
     const int ID;

@@ -6,6 +6,7 @@
 
 #include <vector>
 #include "User.h"
+
 using namespace std;
 
 class LoginController {
@@ -15,7 +16,7 @@ public:
 
     bool addUser(string name, string pwd);
     bool login(string name, string pwd);
-    const string loggedInAs() const;
+    User * loggedInAs() const;
 private:
     vector<User> * m_users;
     User * m_activeUser;

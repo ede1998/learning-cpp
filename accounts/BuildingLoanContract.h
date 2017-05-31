@@ -4,17 +4,17 @@
 
 #pragma once
 
-
 #include "Account.h"
 
 class BuildingLoanContract
         : public Account
 {
 public:
-    static const string name = "Building Loan Contract";
-    static const string description = "Lorem ipsum dolor sit amet.";
+    static constexpr char * name = "Building Loan Contract";
+    static constexpr char * description = "Build a house.";
 
     BuildingLoanContract(User *owner, User *contact, const string &bankCode, int savingSum);
+    ~BuildingLoanContract();
     int getSavingSum() const;
 private:
     int m_savingSum;

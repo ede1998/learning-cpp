@@ -7,9 +7,11 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
-#include "Account.h"
+#include "../accounts/Account.h"
 
 using namespace std;
+
+class Account;
 
 class User {
 public:
@@ -17,6 +19,9 @@ public:
     ~User();
     string getName();
     bool isCorrectPassword(string pwd);
+    const Account * getAccount(int index);
+    int getAccountsLength();
+    void addAccount(const Account &acc);
 private:
     string m_name;
     string m_pwd;

@@ -4,6 +4,8 @@
 
 #include "Account.h"
 
+int Account::nextID = 0;
+
 Account::Account(User *owner, User *contact, string bankCode)
         : ID(nextID++),
           bankCode(bankCode),
@@ -28,4 +30,8 @@ void Account::changeContact(User * newContact) {
 
 const User *const Account::getContact() const {
     return m_contact;
+}
+
+Account::~Account() {
+
 }

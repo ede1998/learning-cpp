@@ -36,12 +36,12 @@ bool LoginController::addUser(string name, string pwd) {
 
 /**
  * Returns the username of the logged in user. If no user is logged in, nullptr is returned.
- * @return username of logged in user or nullptr if no user is logged in
+ * @return pointer to logged in user or nullptr if no user is logged in
  */
-const string LoginController::loggedInAs() const {
+User * LoginController::loggedInAs() const {
     if (m_activeUser == nullptr)
         return nullptr;
-    return m_activeUser->getName();
+    return m_activeUser;
 }
 
 /**
