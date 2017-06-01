@@ -11,11 +11,14 @@ class CheckAccount
         : public Account
 {
 public:
-    static constexpr char * name = "Check Account";
-    static constexpr char * description = "This is the check account and it has cool features.";
+    static constexpr char * name = (char *) "Check Account";
+    static constexpr char * description = (char *) "This is the check account and it has cool features.";
 
-    CheckAccount(User *owner, User *contact, const string &bankCode, int overdraft);
+    CheckAccount(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode, int overdraft);
     ~CheckAccount();
+
+    string getName() override;
+    string getDescription() override;
 
     int getOverdraft() const;
 private:

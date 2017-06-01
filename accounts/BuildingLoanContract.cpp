@@ -4,10 +4,8 @@
 
 #include "BuildingLoanContract.h"
 
-static const string name = "Building Loan Contract";
-static const string description = "Lorem ipsum dolor sit amet.";
-
-BuildingLoanContract::BuildingLoanContract(User *owner, User *contact, const string &bankCode, int savingSum)
+BuildingLoanContract::BuildingLoanContract(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode,
+                                           int savingSum)
         : Account(owner, contact, bankCode)
 {
     m_savingSum = savingSum;
@@ -20,3 +18,13 @@ int BuildingLoanContract::getSavingSum() const {
 BuildingLoanContract::~BuildingLoanContract() {
 
 }
+
+string BuildingLoanContract::getDescription() {
+    return description;
+}
+
+string BuildingLoanContract::getName() {
+    return name;
+}
+
+

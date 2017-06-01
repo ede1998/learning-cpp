@@ -4,6 +4,7 @@
 
 #pragma once
 #include "user/LoginController.h"
+#include "accounts/BankController.h"
 
 class Menu {
 public:
@@ -11,7 +12,8 @@ public:
     ~Menu();
     bool main();
 private:
-    LoginController * m_lc;
+    LoginController m_lc;
+    BankController m_bc;
 
     void login();
     void createUserAccount();

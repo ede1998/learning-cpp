@@ -19,11 +19,11 @@ public:
     ~User();
     string getName();
     bool isCorrectPassword(string pwd);
-    const Account * getAccount(int index);
+    weak_ptr<Account> getAccount(int index);
     int getAccountsLength();
-    void addAccount(const Account &acc);
+    void addAccount(const weak_ptr<Account> acc);
 private:
     string m_name;
     string m_pwd;
-    vector<Account> * m_accounts;
+    vector<weak_ptr<Account>> m_accounts;
 };

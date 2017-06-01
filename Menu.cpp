@@ -11,11 +11,9 @@
 using namespace std;
 
 Menu::Menu() {
-    m_lc = new LoginController();
 }
 
 Menu::~Menu() {
-    delete m_lc;
 }
 
 void Menu::printMain() {
@@ -32,7 +30,7 @@ void Menu::createUserAccount() {
     cin >> name;
     cout << "Please enter password: ";
     cin >> pwd;
-    m_lc->addUser(name, pwd);
+    m_lc.addUser(name, pwd);
 }
 
 void Menu::login() {
@@ -42,8 +40,8 @@ void Menu::login() {
     cin >> name;
     cout << "Password: ";
     cin >> pwd;
-    if (m_lc->login(name, pwd)) {
-        cout << "Successfully logged in as user " << m_lc->loggedInAs() << "." << endl;
+    if (m_lc.login(name, pwd)) {
+        cout << "Successfully logged in as user " << m_lc.loggedInAs()->getName() << "." << endl;
         manageAccounts();
     }
     else {
@@ -70,12 +68,12 @@ bool Menu::main() {
 }
 
 void Menu::showAccounts() {
-    User * user = m_lc->loggedInAs();
+    shared_ptr<User> user = m_lc.loggedInAs();
     cout << "List of accounts:" << endl;
     cout << "Type\tNumber\tBank-Code\tBalance" << endl;
     for (int i = 0; i < user->getAccountsLength(); i++) {
-        const Account * acc = user->getAccount(i);
-        cout << CheckAccount::name << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
+        const shared_ptr<Account> acc = user->getAccount(i).lock();
+        cout << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
     }
 
 }
@@ -108,7 +106,6 @@ void Menu::manageAccounts() {
 }
 
 void Menu::createBankAccount() {
-    //owner contact bankcode
     string bankCode;
     int accType = -1;
     int nr;
@@ -131,20 +128,21 @@ void Menu::createBankAccount() {
             case 1:
                 cout << "Please enter overdraft:" << endl;
                 cin >> nr;
-                m_lc->loggedInAs()->addAccount(
-                        CheckAccount(m_lc->loggedInAs(), nullptr, bankCode, nr));
+
+                m_lc.loggedInAs()->addAccount(
+                        m_bc.createCheckAccount(m_lc.loggedInAs(), nullptr, bankCode, nr));
                 break;
             case 2:
                 cout << "Please enter savings sum:" << endl;
                 cin >> nr;
-                m_lc->loggedInAs()->addAccount(
-                        BuildingLoanContract(m_lc->loggedInAs(), nullptr, bankCode, nr));
+                m_lc.loggedInAs()->addAccount(
+                        m_bc.createBuildingLoanContract(m_lc.loggedInAs(), nullptr, bankCode, nr));
                 break;
             case 3:
                 cout << "Please enter minimum term:" << endl;
                 cin >> nr;
-                m_lc->loggedInAs()->addAccount(
-                        InstantAccessSavingsAccount(m_lc->loggedInAs(), nullptr, bankCode, nr));
+                m_lc.loggedInAs()->addAccount(
+                        m_bc.createInstantAccessSavingsAccount(m_lc.loggedInAs(), nullptr, bankCode, nr));
                 break;
             default:
                 accSelected = false;

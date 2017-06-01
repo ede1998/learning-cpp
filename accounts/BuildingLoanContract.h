@@ -10,11 +10,16 @@ class BuildingLoanContract
         : public Account
 {
 public:
-    static constexpr char * name = "Building Loan Contract";
-    static constexpr char * description = "Build a house.";
+    static constexpr char * name = (char *) "Building Loan Contract";
+    static constexpr char * description = (char *) "Build a house.";
 
-    BuildingLoanContract(User *owner, User *contact, const string &bankCode, int savingSum);
+    BuildingLoanContract(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode, int savingSum);
     ~BuildingLoanContract();
+
+    string getName() override;
+
+    string getDescription() override;
+
     int getSavingSum() const;
 private:
     int m_savingSum;

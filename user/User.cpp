@@ -13,11 +13,10 @@
 User::User(const string &m_name, const string &pwd) : m_name(m_name) {
     hash<string> hashedPwd = hash<string>();
     m_pwd = hashedPwd(pwd);
-    m_accounts = new vector<Account>();
 }
 
 User::~User() {
-    delete m_accounts;
+
 }
 /**
  * Compares the hash of parameter pwd with the internally stored password hash.
@@ -39,16 +38,16 @@ string User::getName() {
 }
 
 int User::getAccountsLength() {
-    return m_accounts->size();
+    return m_accounts.size();
 }
 
-const Account * User::getAccount(int index) {
-    if ((index < 0) || (index >= m_accounts->size())) {
-        return nullptr;
+weak_ptr<Account> User::getAccount(int index) {
+    if ((index < 0) || (index >= m_accounts.size())) {
+        return weak_ptr<Account>();
     }
-    return &(*m_accounts)[index];
+    return m_accounts[index];
 }
 
-void User::addAccount(const Account &acc) {
-        m_accounts->emplace_back(acc);
+void User::addAccount(const weak_ptr<Account> acc) {
+        m_accounts.emplace_back(acc);
 }

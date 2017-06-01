@@ -6,6 +6,7 @@
 
 #include <string>
 #include <ctime>
+#include <memory>
 #include "../user/User.h"
 
 using namespace std;
@@ -14,24 +15,27 @@ class User;
 
 class Account {
 public:
-    static constexpr char * name = "";
-    static constexpr char * description = "";
-
     const string accountNumber;
     const string bankCode;
 
-    const User * const owner;
+    static constexpr char * name = (char *) "";
+    static constexpr char * description = (char *) "";
+
+    shared_ptr<const User> const owner;
     const time_t inaugurationDate;
 
     ~Account();
+
+    virtual string getName() = 0;
+    virtual string getDescription() = 0;
     int getBalance() const;
     double getRateOfInterest() const;
-    void changeContact(User * newContact);
-    const User * const  getContact() const;
+    void changeContact(shared_ptr<User> newContact);
+    const shared_ptr<const User> getContact() const;
 protected:
-    Account(User * owner, User * contact, string bankCode);
+    Account(shared_ptr<User> owner, shared_ptr<User> contact, string bankCode);
     int m_balance;
-    User * m_contact;
+    shared_ptr<User> m_contact;
     const int ID;
     double m_rateOfInterest;
     void * m_transactions; //Struct with date, dest, src,...

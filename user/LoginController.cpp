@@ -8,14 +8,14 @@
  * Constructor of LoginController. Creates a new instance of LoginController.
  */
 LoginController::LoginController() {
-    m_users = new vector<User>();
+
 }
 
 /**
  * Destructor of LoginController. Destroys an instance of LoginController.
  */
 LoginController::~LoginController() {
-    delete m_users;
+
 }
 
 /**
@@ -25,12 +25,12 @@ LoginController::~LoginController() {
  * @return True if new user was added successfully, false otherwise
  */
 bool LoginController::addUser(string name, string pwd) {
-    for (int i = 0; i < m_users->size(); i++) {
-        if ((*m_users)[i].getName() == name) {
+    for (int i = 0; i < m_users.size(); i++) {
+        if (m_users[i]->getName() == name) {
             return false;
         }
     }
-    m_users->emplace_back(User(name, pwd));
+    m_users.emplace_back(new User(name, pwd));
         return true;
 }
 
@@ -38,7 +38,7 @@ bool LoginController::addUser(string name, string pwd) {
  * Returns the username of the logged in user. If no user is logged in, nullptr is returned.
  * @return pointer to logged in user or nullptr if no user is logged in
  */
-User * LoginController::loggedInAs() const {
+shared_ptr<User> LoginController::loggedInAs() const {
     if (m_activeUser == nullptr)
         return nullptr;
     return m_activeUser;
@@ -53,10 +53,10 @@ User * LoginController::loggedInAs() const {
  * @return True on success, false if no matching user-password combination was found
  */
 bool LoginController::login(string name, string pwd) {
-    for (int i = 0; i < m_users->size(); i++) {
-        if (((*m_users)[i].getName() == name) &&
-                ((*m_users)[i].isCorrectPassword(pwd))) {
-            m_activeUser = &(*m_users)[i];
+    for (int i = 0; i < m_users.size(); i++) {
+        if ((m_users[i]->getName() == name) &&
+                (m_users[i]->isCorrectPassword(pwd))) {
+            m_activeUser = m_users[i];
             return true;
         }
     }

@@ -6,7 +6,7 @@
 
 int Account::nextID = 0;
 
-Account::Account(User *owner, User *contact, string bankCode)
+Account::Account(shared_ptr<User> owner, shared_ptr<User> contact, string bankCode)
         : ID(nextID++),
           bankCode(bankCode),
           inaugurationDate(time(0)),
@@ -24,14 +24,16 @@ double Account::getRateOfInterest() const {
     return m_rateOfInterest;
 }
 
-void Account::changeContact(User * newContact) {
+void Account::changeContact(shared_ptr<User> newContact) {
     m_contact = newContact;
 }
 
-const User *const Account::getContact() const {
+const shared_ptr<const User> Account::getContact() const {
     return m_contact;
 }
 
 Account::~Account() {
 
 }
+
+

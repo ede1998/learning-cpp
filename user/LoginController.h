@@ -16,8 +16,8 @@ public:
 
     bool addUser(string name, string pwd);
     bool login(string name, string pwd);
-    User * loggedInAs() const;
+    shared_ptr<User> loggedInAs() const;
 private:
-    vector<User> * m_users;
-    User * m_activeUser;
+    vector<shared_ptr<User>> m_users;
+    shared_ptr<User> m_activeUser;
 };

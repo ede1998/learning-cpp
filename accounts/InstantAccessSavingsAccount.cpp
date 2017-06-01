@@ -4,7 +4,8 @@
 
 #include "InstantAccessSavingsAccount.h"
 
-InstantAccessSavingsAccount::InstantAccessSavingsAccount(User *owner, User *contact, const string &bankCode, int minimumTerm)
+InstantAccessSavingsAccount::InstantAccessSavingsAccount(shared_ptr<User> owner, shared_ptr<User> contact,
+                                                         const string &bankCode, int minimumTerm)
         : Account(owner, contact, bankCode),
           m_minimumTerm(minimumTerm)
 {
@@ -17,4 +18,12 @@ int InstantAccessSavingsAccount::getMinimumTerm() const {
 
 InstantAccessSavingsAccount::~InstantAccessSavingsAccount() {
 
+}
+
+string InstantAccessSavingsAccount::getName() {
+    return name;
+}
+
+string InstantAccessSavingsAccount::getDescription() {
+    return description;
 }
