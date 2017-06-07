@@ -49,5 +49,10 @@ weak_ptr<Account> User::getAccount(int index) {
 }
 
 void User::addAccount(const weak_ptr<Account> acc) {
-        m_accounts.emplace_back(acc);
+    m_accounts.emplace_back(acc);
+}
+
+void User::removeAccount(const int index) {
+    if ((index < 0) || (index >= m_accounts.size())) return;
+    m_accounts.erase(m_accounts.begin() + index);
 }

@@ -33,8 +33,14 @@ weak_ptr<Account> BankController::createInstantAccessSavingsAccount(shared_ptr<U
     return m_accounts.back();
 }
 
-weak_ptr<Account> BankController::getAccount(int index) const {
+weak_ptr<Account> BankController::getAccount(const int index) const {
     return m_accounts.at(index);
+}
+
+void BankController::deleteAccount(const int index) {
+    if ((index < 0) || (index >= m_accounts.size())) return;
+    m_accounts.at(index)->owner->removeAccount(index);
+    m_accounts.erase(m_accounts.begin() + index);
 }
 
 

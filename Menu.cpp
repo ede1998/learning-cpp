@@ -19,9 +19,9 @@ Menu::~Menu() {
 void Menu::printMain() {
     cout << "Main Menu:" << endl;
     cout << "Please choose an action" << endl;
-    cout << "(0) Login" << endl;
-    cout << "(1) Create new user account" << endl;
-    cout << "(2) Quit program" << endl;
+    cout << "(0) Quit program" << endl;
+    cout << "(1) Login" << endl;
+    cout << "(2) Create new user account" << endl;
 }
 
 void Menu::createUserAccount() {
@@ -55,13 +55,13 @@ bool Menu::main() {
     printMain();
     cin >> option;
     switch (option) {
-        case 0: //Login
+        case 1: //Login
             login();
             break;
-        case 1: //Create Account
+        case 2: //Create Account
             createUserAccount();
             break;
-        case 2: //Quit program
+        case 0: //Quit program
             return false;
         }
     return true;
@@ -70,10 +70,10 @@ bool Menu::main() {
 void Menu::showAccounts() {
     shared_ptr<User> user = m_lc.loggedInAs();
     cout << "List of accounts:" << endl;
-    cout << "Type\tNumber\tBank-Code\tBalance" << endl;
+    cout << "NR\tType\tNumber\tBank-Code\tBalance" << endl;
     for (int i = 0; i < user->getAccountsLength(); i++) {
         const shared_ptr<Account> acc = user->getAccount(i).lock();
-        cout << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
+        cout << i+1 << "\t" << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
     }
 
 }
@@ -83,22 +83,26 @@ void Menu::manageAccounts() {
     while (!logout) {
         cout << "Account Manager:" << endl;
         cout << "Please choose an action" << endl;
-        cout << "(0) Display account information" << endl;
-        cout << "(1) Transaction" << endl;
-        cout << "(2) Create new bank account" << endl;
-        cout << "(3) Logout" << endl;
+        cout << "(0) Logout" << endl;
+        cout << "(1) Display account information" << endl;
+        cout << "(2) Transaction" << endl;
+        cout << "(3) Create new bank account" << endl;
+        cout << "(4) Delete bank account" << endl;
         int action = -1;
         cin >> action;
         switch (action) {
-            case 0:
+            case 1:
                 showAccounts();
                 break;
-            case 1:
-                break;
             case 2:
-                createBankAccount();
                 break;
             case 3:
+                createBankAccount();
+                break;
+            case 4:
+                deleteBankAccount();
+                break;
+            case 0:
                 logout = true;
                 break;
         }
@@ -149,4 +153,17 @@ void Menu::createBankAccount() {
                 break;
         }
     } while (!accSelected);
+}
+
+void Menu::deleteBankAccount() {
+    if (m_lc.loggedInAs()->getAccountsLength() == 0) {
+        cout << "No accounts exist." << endl;
+        return;
+    }
+    cout << "Delete bank account:" << endl;
+    cout << "Please choose an account: (-1 to cancel)" << endl;
+    showAccounts();
+    int nr;
+    cin >> nr;
+    m_bc.deleteAccount(--nr);
 }

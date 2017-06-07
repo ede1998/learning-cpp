@@ -21,7 +21,7 @@ public:
     static constexpr char * name = (char *) "";
     static constexpr char * description = (char *) "";
 
-    shared_ptr<const User> const owner;
+    shared_ptr<User> const owner;
     const time_t inaugurationDate;
 
     ~Account();
