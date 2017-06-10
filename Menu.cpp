@@ -4,9 +4,9 @@
 
 #include "Menu.h"
 #include <iostream>
-#include "accounts/CheckAccount.h"
-#include "accounts/BuildingLoanContract.h"
-#include "accounts/InstantAccessSavingsAccount.h"
+#include "lib-accounts/CheckAccount.h"
+#include "lib-accounts/BuildingLoanContract.h"
+#include "lib-accounts/InstantAccessSavingsAccount.h"
 
 using namespace std;
 

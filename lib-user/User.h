@@ -7,7 +7,7 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
-#include "../accounts/Account.h"
+#include "../lib-accounts/Account.h"
 
 using namespace std;
 

@@ -3,5 +3,11 @@ project(programming_cpp)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp user/User.cpp user/User.h user/LoginController.cpp user/LoginController.h Menu.cpp Menu.h accounts/Account.cpp accounts/Account.h accounts/CheckAccount.cpp accounts/CheckAccount.h accounts/BuildingLoanContract.cpp accounts/BuildingLoanContract.h accounts/InstantAccessSavingsAccount.cpp accounts/InstantAccessSavingsAccount.h accounts/BankController.cpp accounts/BankController.h)
+add_subdirectory(lib-accounts)
+add_subdirectory(lib-user)
+
+set(SOURCE_FILES main.cpp Menu.cpp Menu.h)
+
 add_executable(programming_cpp ${SOURCE_FILES})
+target_link_libraries(programming_cpp lib_user)
+target_link_libraries(programming_cpp lib_accounts)

@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include "user/LoginController.h"
-#include "accounts/BankController.h"
+#include "lib-user/LoginController.h"
+#include "lib-accounts/BankController.h"
 
 class Menu {
 public:
