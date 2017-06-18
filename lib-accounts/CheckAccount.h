@@ -21,6 +21,8 @@ public:
     string getDescription() override;
 
     int getOverdraft() const;
+
+    string serialize() override;
 private:
     int m_overdraft;
 };

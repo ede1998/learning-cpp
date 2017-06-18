@@ -56,3 +56,14 @@ void User::removeAccount(const int index) {
     if ((index < 0) || (index >= m_accounts.size())) return;
     m_accounts.erase(m_accounts.begin() + index);
 }
+
+string User::serialize() {
+    string acc = "";
+    for (weak_ptr<Account> a: m_accounts) {
+        shared_ptr<Account> as = a.lock();
+        acc += as->ID + ",";
+    }
+    if (acc.length() != 0)
+      acc[acc.length() - 1] = 0;
+    return m_name + "," + m_pwd + "," + acc;
+}

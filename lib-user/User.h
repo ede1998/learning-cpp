@@ -23,6 +23,7 @@ public:
     int getAccountsLength();
     void addAccount(const weak_ptr<Account> acc);
     void removeAccount(const int index);
+    string serialize();
 private:
     string m_name;
     string m_pwd;

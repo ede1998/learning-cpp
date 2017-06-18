@@ -21,6 +21,9 @@ public:
     string getDescription() override;
 
     int getSavingSum() const;
+
+    string serialize() override;
+    static unique_ptr<BuildingLoanContract> unserialize(string serializedObj);
 private:
     int m_savingSum;
 };

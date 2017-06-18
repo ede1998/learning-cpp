@@ -5,7 +5,7 @@
 #include "CheckAccount.h"
 
 CheckAccount::CheckAccount(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode, int overdraft)
-        : Account(owner, contact, bankCode)
+        : Account(owner, contact, bankCode, CA)
 {
     m_overdraft = overdraft;
 }
@@ -25,4 +25,8 @@ string CheckAccount::getName() {
 
 string CheckAccount::getDescription() {
     return description;
+}
+
+string CheckAccount::serialize() {
+    return accountSerialize() + "," + to_string(m_overdraft);
 }

@@ -8,14 +8,15 @@
  * Constructor of LoginController. Creates a new instance of LoginController.
  */
 LoginController::LoginController() {
-
+    m_loader = new Loader("User.csv");
 }
 
 /**
  * Destructor of LoginController. Destroys an instance of LoginController.
  */
 LoginController::~LoginController() {
-
+    delete m_loader;
+    m_loader = nullptr;
 }
 
 /**
@@ -61,4 +62,21 @@ bool LoginController::login(string name, string pwd) {
         }
     }
     return false;
+}
+
+string LoginController::serialize() {
+    string str = "";
+    for (weak_ptr<User> u: m_users) {
+        shared_ptr<User> us = u.lock();
+        str += us->serialize() + "\n";
+    }
+    return str;
+}
+
+void LoginController::save(){
+    m_loader->save(serialize());
+}
+
+void LoginController::load(){
+    m_loader.load(); //TODO unserialize
 }

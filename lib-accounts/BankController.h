@@ -19,7 +19,14 @@ public:
     weak_ptr<Account> createInstantAccessSavingsAccount(shared_ptr<User> owner, shared_ptr<User> contact,
                                                         const string &bankCode, int minimumTerm);
     void deleteAccount(const int index);
+
+    string serialize();
+    void unserialize(string serializedObj);
+
+    void save();
+    void load();
 private:
     vector<shared_ptr<Account>> m_accounts;
+    Loader * m_loader;
 };
 

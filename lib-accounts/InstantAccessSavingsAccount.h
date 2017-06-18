@@ -20,6 +20,8 @@ public:
     string getName() override;
     string getDescription() override;
     int getMinimumTerm() const;
+
+    string serialize() override;
 private:
     const int m_minimumTerm;
 };

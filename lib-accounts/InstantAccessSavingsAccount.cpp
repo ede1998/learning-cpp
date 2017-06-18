@@ -6,7 +6,7 @@
 
 InstantAccessSavingsAccount::InstantAccessSavingsAccount(shared_ptr<User> owner, shared_ptr<User> contact,
                                                          const string &bankCode, int minimumTerm)
-        : Account(owner, contact, bankCode),
+        : Account(owner, contact, bankCode, IASA),
           m_minimumTerm(minimumTerm)
 {
 
@@ -26,4 +26,8 @@ string InstantAccessSavingsAccount::getName() {
 
 string InstantAccessSavingsAccount::getDescription() {
     return description;
+}
+
+string InstantAccessSavingsAccount::serialize() {
+    return accountSerialize() + "," + to_string(m_minimumTerm);
 }

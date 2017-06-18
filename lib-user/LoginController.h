@@ -6,6 +6,7 @@
 
 #include <vector>
 #include "User.h"
+#include "../Loader.h"
 
 using namespace std;
 
@@ -17,7 +18,12 @@ public:
     bool addUser(string name, string pwd);
     bool login(string name, string pwd);
     shared_ptr<User> loggedInAs() const;
+    string serialize();
+
+    void save();
+    void load();
 private:
     vector<shared_ptr<User>> m_users;
     shared_ptr<User> m_activeUser;
+    Loader * m_loader;
 };

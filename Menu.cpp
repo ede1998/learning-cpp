@@ -30,7 +30,7 @@ void Menu::createUserAccount() {
     cin >> name;
     cout << "Please enter password: ";
     cin >> pwd;
-    m_lc.addUser(name, pwd);
+    m_lc.addUser(name, pwd); //TODO check for , in name (problem with serialize)
 }
 
 void Menu::login() {

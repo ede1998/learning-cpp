@@ -8,11 +8,12 @@
 #include "InstantAccessSavingsAccount.h"
 
 BankController::BankController() {
-
+    m_loader = new Loader("Accounts.csv");
 }
 
 BankController::~BankController() {
-
+    delete m_loader;
+    m_loader = nullptr;
 }
 
 weak_ptr<Account> BankController::createCheckAccount(shared_ptr<User> owner, shared_ptr<User> contact,
@@ -43,4 +44,25 @@ void BankController::deleteAccount(const int index) {
     m_accounts.erase(m_accounts.begin() + index);
 }
 
+string BankController::serialize() {
+    string str = "";
+    for (shared_ptr<Account> a: m_accounts) {
+       str += a->serialize() + "\n";
+    }
+    return str;
+}
 
+void BankController::unserialize(string serializedObj) {
+    vector<string> acc = split(serializedObj, '\n');
+    for (string str: acc) {
+        m_accounts.emplace_back(new )//TODO insert correct account type
+    }
+}
+
+void BankController::load() {
+    unserialize(m_loader->load());
+}
+
+void BankController::save() {
+    m_loader->save(serialize());
+}
