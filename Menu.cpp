@@ -10,7 +10,10 @@
 
 using namespace std;
 
-Menu::Menu() {
+Menu::Menu()
+: m_bc(BankController::getInstance()),
+  m_lc(LoginController::getInstance())
+{
 }
 
 Menu::~Menu() {
@@ -72,7 +75,7 @@ void Menu::showAccounts() {
     cout << "List of accounts:" << endl;
     cout << "NR\tType\tNumber\tBank-Code\tBalance" << endl;
     for (int i = 0; i < user->getAccountsLength(); i++) {
-        const shared_ptr<Account> acc = user->getAccount(i).lock();
+        const shared_ptr<Account> acc = m_bc.getAccountById(user->getAccount(i)).lock();
         cout << i+1 << "\t" << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
     }
 

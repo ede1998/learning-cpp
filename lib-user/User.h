@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <vector>
 #include "../lib-accounts/Account.h"
+#include "../Loader.h"
 
 using namespace std;
 
@@ -19,13 +20,16 @@ public:
     ~User();
     string getName();
     bool isCorrectPassword(string pwd);
-    weak_ptr<Account> getAccount(int index);
+    int getAccount(int index);
+    weak_ptr<Account> getAccountById(int id);
     int getAccountsLength();
-    void addAccount(const weak_ptr<Account> acc);
+    void addAccount(const int ID);
     void removeAccount(const int index);
     string serialize();
+    static unique_ptr<User> unserialize(string serializedObj);
 private:
+    User(const string &m_name, const string &pwd, char dummy);
     string m_name;
     string m_pwd;
-    vector<weak_ptr<Account>> m_accounts;
+    vector<int> m_accounts;
 };

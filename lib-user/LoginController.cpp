@@ -11,6 +11,10 @@ LoginController::LoginController() {
     m_loader = new Loader("User.csv");
 }
 
+LoginController & LoginController::getInstance() {
+    return m_lc;
+}
+
 /**
  * Destructor of LoginController. Destroys an instance of LoginController.
  */
@@ -73,10 +77,17 @@ string LoginController::serialize() {
     return str;
 }
 
+void LoginController::unserialize(string serializedObj) {
+    vector<string> acc = split(serializedObj, '\n');
+    for (string str: acc) {
+        m_users.emplace_back(User::unserialize(str));
+    }
+}
+
 void LoginController::save(){
     m_loader->save(serialize());
 }
 
 void LoginController::load(){
-    m_loader.load(); //TODO unserialize
+    m_loader->load(); //TODO unserialize
 }

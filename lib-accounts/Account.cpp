@@ -7,35 +7,49 @@
 
 int Account::nextID = 0;
 
-Account::Account(shared_ptr<User> owner, shared_ptr<User> contact, string bankCode, AccType type)
+Account::Account(string owner, string contact, string bankCode, AccType type)
         : ID(nextID++),
           bankCode(bankCode),
           inaugurationDate(time(0)),
-          accountNumber(bankCode + to_string(ID) + to_string(random())),
+          accountNumber(bankCode + to_string(ID)),
           owner(owner),
           type(type)
 {
     m_contact = contact;
 }
 
-Account::Account(string serializedObj)
-        : accountUnserialize(serializedObj)
+Account::Account(string owner, string contact, string bankCode, int ID, int inaugurationDate, AccType type)
+        : ID(ID),
+          bankCode(bankCode),
+          inaugurationDate(inaugurationDate),
+          accountNumber(bankCode + to_string(ID)),
+          owner(owner),
+          type(type)
 {
-
+    m_contact = contact;
+    if (ID > nextID) nextID = ID+1;
 }
+
 int Account::getBalance() const {
     return m_balance;
+}
+
+void Account::setBalance(int balance) {
+    m_balance = balance;
+}
+void Account::setRateOfInterest(double roi) {
+    m_rateOfInterest = roi;
 }
 
 double Account::getRateOfInterest() const {
     return m_rateOfInterest;
 }
 
-void Account::changeContact(shared_ptr<User> newContact) {
+void Account::changeContact(string newContact) {
     m_contact = newContact;
 }
 
-const shared_ptr<const User> Account::getContact() const {
+string Account::getContact() const {
     return m_contact;
 }
 
@@ -44,18 +58,6 @@ Account::~Account() {
 }
 
 string Account::accountSerialize() {
-    string nowner = "";
-    string ncontact = "";
-    if (owner != nullptr)
-        nowner = owner->getName();
-    if (m_contact != nullptr)
-        ncontact = m_contact->getName();
-    return to_string(type) + "," + to_string(ID) + "," + accountNumber + "," + bankCode + "," + nowner + "," + to_string(inaugurationDate) + "," +
-            ncontact + "," + to_string(m_balance) + "," + to_string(m_rateOfInterest);
-}
-
-void Account::accountUnserialize(string serializedObj) {
-    vector<string> columns = split(serializedObj, ',');
-    ID = atoi(columns[0]);
-
+    return to_string(type) + "," + to_string(ID) + "," + accountNumber + "," + bankCode + "," + owner + "," + to_string(inaugurationDate) + "," +
+            m_contact + "," + to_string(m_balance) + "," + to_string(m_rateOfInterest);
 }

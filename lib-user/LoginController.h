@@ -12,7 +12,7 @@ using namespace std;
 
 class LoginController {
 public:
-    LoginController();
+    static LoginController & getInstance();
     ~LoginController();
 
     bool addUser(string name, string pwd);
@@ -20,9 +20,15 @@ public:
     shared_ptr<User> loggedInAs() const;
     string serialize();
 
+
     void save();
     void load();
 private:
+    LoginController();
+    void unserialize(string serializedObj);
+
+    static LoginController m_lc;
+
     vector<shared_ptr<User>> m_users;
     shared_ptr<User> m_activeUser;
     Loader * m_loader;

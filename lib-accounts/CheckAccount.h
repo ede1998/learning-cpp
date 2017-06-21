@@ -6,6 +6,8 @@
 
 
 #include "Account.h"
+#include <vector>
+#include "../Loader.h"
 
 class CheckAccount
         : public Account
@@ -14,7 +16,7 @@ public:
     static constexpr char * name = (char *) "Check Account";
     static constexpr char * description = (char *) "This is the check account and it has cool features.";
 
-    CheckAccount(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode, int overdraft);
+    CheckAccount(string owner, string contact, const string &bankCode, int overdraft);
     ~CheckAccount();
 
     string getName() override;
@@ -23,7 +25,9 @@ public:
     int getOverdraft() const;
 
     string serialize() override;
+    static unique_ptr<CheckAccount> unserialize(string serializedObj);
 private:
+    CheckAccount(string owner, string contact, const string &bankCode, int ID, int inaugurationDate, int overdraft);
     int m_overdraft;
 };
 

@@ -12,8 +12,8 @@ public:
     ~Menu();
     bool main();
 private:
-    LoginController m_lc;
-    BankController m_bc;
+    LoginController &m_lc;
+    BankController &m_bc;
 
     void login();
     void createUserAccount();

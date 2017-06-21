@@ -7,6 +7,10 @@
 #include "BuildingLoanContract.h"
 #include "InstantAccessSavingsAccount.h"
 
+
+BankController & BankController::getInstance() {
+    return m_self;
+}
 BankController::BankController() {
     m_loader = new Loader("Accounts.csv");
 }
@@ -16,31 +20,39 @@ BankController::~BankController() {
     m_loader = nullptr;
 }
 
-weak_ptr<Account> BankController::createCheckAccount(shared_ptr<User> owner, shared_ptr<User> contact,
+weak_ptr<Account> BankController::createCheckAccount(string owner, string contact,
                                                      const string &bankCode, int overdraft) {
     m_accounts.emplace_back(new CheckAccount(owner, contact, bankCode, overdraft));
     return m_accounts.back();
 }
 
-weak_ptr<Account> BankController::createBuildingLoanContract(shared_ptr<User> owner, shared_ptr<User> contact,
+weak_ptr<Account> BankController::createBuildingLoanContract(string owner, string contact,
                                                              const string &bankCode, int savingSum) {
     m_accounts.emplace_back(new BuildingLoanContract(owner, contact, bankCode, savingSum));
     return m_accounts.back();
 }
 
-weak_ptr<Account> BankController::createInstantAccessSavingsAccount(shared_ptr<User> owner, shared_ptr<User> contact,
+weak_ptr<Account> BankController::createInstantAccessSavingsAccount(string owner, string contact,
                                                                     const string &bankCode, int minimumTerm) {
     m_accounts.emplace_back(new InstantAccessSavingsAccount(owner, contact, bankCode, minimumTerm));
     return m_accounts.back();
 }
 
-weak_ptr<Account> BankController::getAccount(const int index) const {
+weak_ptr<Account> BankController::getAccountByIndex(const int index) const {
     return m_accounts.at(index);
+}
+
+weak_ptr<Account> BankController::getAccountById(const int id) const {
+    for (int i = 0; i < m_accounts.size(); i++) {
+        if (m_accounts[i]->ID == id)
+            return m_accounts[i];
+    }
+    return weak_ptr<Account>();
 }
 
 void BankController::deleteAccount(const int index) {
     if ((index < 0) || (index >= m_accounts.size())) return;
-    m_accounts.at(index)->owner->removeAccount(index);
+    LoginController::getInstance().getUserById(m_accounts.at(index)->owner)->removeAccount(index); //TODO
     m_accounts.erase(m_accounts.begin() + index);
 }
 
@@ -55,7 +67,17 @@ string BankController::serialize() {
 void BankController::unserialize(string serializedObj) {
     vector<string> acc = split(serializedObj, '\n');
     for (string str: acc) {
-        m_accounts.emplace_back(new )//TODO insert correct account type
+        switch (atoi(split(str, ',')[0].c_str())) {
+            case CA:
+                m_accounts.emplace_back(CheckAccount::unserialize(str));
+                break;
+            case BLC:
+                m_accounts.emplace_back(BuildingLoanContract::unserialize(str));
+                break;
+            case IASA:
+                m_accounts.emplace_back(InstantAccessSavingsAccount::unserialize(str));
+                break;
+        }
     }
 }
 

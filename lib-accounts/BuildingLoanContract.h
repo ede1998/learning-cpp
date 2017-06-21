@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Account.h"
+#include "../Loader.h"
 
 class BuildingLoanContract
         : public Account
@@ -13,7 +14,7 @@ public:
     static constexpr char * name = (char *) "Building Loan Contract";
     static constexpr char * description = (char *) "Build a house.";
 
-    BuildingLoanContract(shared_ptr<User> owner, shared_ptr<User> contact, const string &bankCode, int savingSum);
+    BuildingLoanContract(string owner, string contact, const string &bankCode, int savingSum);
     ~BuildingLoanContract();
 
     string getName() override;
@@ -25,6 +26,7 @@ public:
     string serialize() override;
     static unique_ptr<BuildingLoanContract> unserialize(string serializedObj);
 private:
+    BuildingLoanContract(string owner, string contact, const string &bankCode, int ID, int inaugurationDate, int savingSum);
     int m_savingSum;
 };
 
