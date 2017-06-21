@@ -10,17 +10,17 @@
 
 class BankController {
 public:
-    static BankController & getInstance();
+    static BankController * getInstance();
     ~BankController();
     weak_ptr<Account> getAccountByIndex(const int index) const;
     weak_ptr<Account> getAccountById(const int id) const;
-    weak_ptr<Account> createCheckAccount(string owner, string contact, const string &bankCode,
+    int createCheckAccount(string owner, string contact, const string &bankCode,
                                          int overdraft);
-    weak_ptr<Account> createBuildingLoanContract(string owner, string contact,
+    int createBuildingLoanContract(string owner, string contact,
                                                  const string &bankCode, int savingSum);
-    weak_ptr<Account> createInstantAccessSavingsAccount(string owner, string contact,
+    int createInstantAccessSavingsAccount(string owner, string contact,
                                                         const string &bankCode, int minimumTerm);
-    void deleteAccount(const int index);
+    void removeAccount(const int id);
 
     string serialize();
     void unserialize(string serializedObj);
@@ -29,7 +29,7 @@ public:
     void load();
 private:
     BankController();
-    static BankController m_self;
+    static BankController * m_self;
     vector<shared_ptr<Account>> m_accounts;
     Loader * m_loader;
 };

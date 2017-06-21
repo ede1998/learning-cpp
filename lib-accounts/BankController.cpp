@@ -8,10 +8,13 @@
 #include "InstantAccessSavingsAccount.h"
 
 
-BankController & BankController::getInstance() {
+BankController * BankController::getInstance() {
+    if (m_self == nullptr)
+        m_self = new BankController();
     return m_self;
 }
-BankController::BankController() {
+BankController::BankController()
+{
     m_loader = new Loader("Accounts.csv");
 }
 
@@ -20,22 +23,22 @@ BankController::~BankController() {
     m_loader = nullptr;
 }
 
-weak_ptr<Account> BankController::createCheckAccount(string owner, string contact,
+int BankController::createCheckAccount(string owner, string contact,
                                                      const string &bankCode, int overdraft) {
     m_accounts.emplace_back(new CheckAccount(owner, contact, bankCode, overdraft));
-    return m_accounts.back();
+    return m_accounts.back()->ID;
 }
 
-weak_ptr<Account> BankController::createBuildingLoanContract(string owner, string contact,
+int BankController::createBuildingLoanContract(string owner, string contact,
                                                              const string &bankCode, int savingSum) {
     m_accounts.emplace_back(new BuildingLoanContract(owner, contact, bankCode, savingSum));
-    return m_accounts.back();
+    return m_accounts.back()->ID;
 }
 
-weak_ptr<Account> BankController::createInstantAccessSavingsAccount(string owner, string contact,
+int BankController::createInstantAccessSavingsAccount(string owner, string contact,
                                                                     const string &bankCode, int minimumTerm) {
     m_accounts.emplace_back(new InstantAccessSavingsAccount(owner, contact, bankCode, minimumTerm));
-    return m_accounts.back();
+    return m_accounts.back()->ID;
 }
 
 weak_ptr<Account> BankController::getAccountByIndex(const int index) const {
@@ -50,10 +53,12 @@ weak_ptr<Account> BankController::getAccountById(const int id) const {
     return weak_ptr<Account>();
 }
 
-void BankController::deleteAccount(const int index) {
-    if ((index < 0) || (index >= m_accounts.size())) return;
-    LoginController::getInstance().getUserById(m_accounts.at(index)->owner)->removeAccount(index); //TODO
-    m_accounts.erase(m_accounts.begin() + index);
+void BankController::removeAccount(const int id) {
+    for (int i = 0; i < m_accounts.size(); i++) {
+        if (m_accounts[i]->ID == id)
+            m_accounts.erase(m_accounts.begin() + i);
+        break;
+    }
 }
 
 string BankController::serialize() {

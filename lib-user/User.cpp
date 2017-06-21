@@ -56,7 +56,7 @@ int User::getAccount(int index) {
 weak_ptr<Account> User::getAccountById(int id) {
     for (int ident: m_accounts)
         if (ident == id)
-            return BankController::getInstance().getAccountById(id);
+            return BankController::getInstance()->getAccountById(id);
     return weak_ptr<Account>();
 }
 
@@ -65,16 +65,22 @@ void User::addAccount(int ID) {
 }
 
 void User::removeAccount(const int id) {
-
-
-    m_accounts.erase(m_accounts.begin() + index);
+    BankController *bc = BankController::getInstance();
+    for (int i = 0; i < m_accounts.size(); i++) {
+        shared_ptr<Account> p = bc->getAccountById(m_accounts[i]).lock();
+        if (p->ID == id) {
+            bc->removeAccount(id);
+            m_accounts.erase(m_accounts.begin() + i);
+            break;
+        }
+    }
 }
 
 string User::serialize() {
     string acc = "";
-    BankController & bc = BankController::getInstance();
+    BankController * bc = BankController::getInstance();
     for (int id: m_accounts) {
-        shared_ptr<Account> as = bc.getAccountById(id).lock();
+        shared_ptr<Account> as = bc->getAccountById(id).lock();
         acc += as->ID + ",";
     }
     if (acc.length() != 0)

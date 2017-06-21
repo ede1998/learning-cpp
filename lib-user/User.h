@@ -24,7 +24,7 @@ public:
     weak_ptr<Account> getAccountById(int id);
     int getAccountsLength();
     void addAccount(const int ID);
-    void removeAccount(const int index);
+    void removeAccount(const int id);
     string serialize();
     static unique_ptr<User> unserialize(string serializedObj);
 private:

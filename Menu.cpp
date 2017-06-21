@@ -33,7 +33,7 @@ void Menu::createUserAccount() {
     cin >> name;
     cout << "Please enter password: ";
     cin >> pwd;
-    m_lc.addUser(name, pwd); //TODO check for , in name (problem with serialize)
+    m_lc->addUser(name, pwd); //TODO check for , in name (problem with serialize)
 }
 
 void Menu::login() {
@@ -43,8 +43,8 @@ void Menu::login() {
     cin >> name;
     cout << "Password: ";
     cin >> pwd;
-    if (m_lc.login(name, pwd)) {
-        cout << "Successfully logged in as user " << m_lc.loggedInAs()->getName() << "." << endl;
+    if (m_lc->login(name, pwd)) {
+        cout << "Successfully logged in as user " << m_lc->loggedInAs()->getName() << "." << endl;
         manageAccounts();
     }
     else {
@@ -71,11 +71,11 @@ bool Menu::main() {
 }
 
 void Menu::showAccounts() {
-    shared_ptr<User> user = m_lc.loggedInAs();
+    shared_ptr<User> user = m_lc->loggedInAs();
     cout << "List of accounts:" << endl;
     cout << "NR\tType\tNumber\tBank-Code\tBalance" << endl;
     for (int i = 0; i < user->getAccountsLength(); i++) {
-        const shared_ptr<Account> acc = m_bc.getAccountById(user->getAccount(i)).lock();
+        const shared_ptr<Account> acc = m_bc->getAccountById(user->getAccount(i)).lock();
         cout << i+1 << "\t" << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
     }
 
@@ -136,20 +136,20 @@ void Menu::createBankAccount() {
                 cout << "Please enter overdraft:" << endl;
                 cin >> nr;
 
-                m_lc.loggedInAs()->addAccount(
-                        m_bc.createCheckAccount(m_lc.loggedInAs(), nullptr, bankCode, nr));
+                m_lc->loggedInAs()->addAccount(
+                        m_bc->createCheckAccount(m_lc->loggedInAs()->getName(), "", bankCode, nr));
                 break;
             case 2:
                 cout << "Please enter savings sum:" << endl;
                 cin >> nr;
-                m_lc.loggedInAs()->addAccount(
-                        m_bc.createBuildingLoanContract(m_lc.loggedInAs(), nullptr, bankCode, nr));
+                m_lc->loggedInAs()->addAccount(
+                        m_bc->createBuildingLoanContract(m_lc->loggedInAs()->getName(), "", bankCode, nr));
                 break;
             case 3:
                 cout << "Please enter minimum term:" << endl;
                 cin >> nr;
-                m_lc.loggedInAs()->addAccount(
-                        m_bc.createInstantAccessSavingsAccount(m_lc.loggedInAs(), nullptr, bankCode, nr));
+                m_lc->loggedInAs()->addAccount(
+                        m_bc->createInstantAccessSavingsAccount(m_lc->loggedInAs()->getName(), "", bankCode, nr));
                 break;
             default:
                 accSelected = false;
@@ -159,7 +159,7 @@ void Menu::createBankAccount() {
 }
 
 void Menu::deleteBankAccount() {
-    if (m_lc.loggedInAs()->getAccountsLength() == 0) {
+    if (m_lc->loggedInAs()->getAccountsLength() == 0) {
         cout << "No accounts exist." << endl;
         return;
     }
@@ -168,5 +168,5 @@ void Menu::deleteBankAccount() {
     showAccounts();
     int nr;
     cin >> nr;
-    m_bc.deleteAccount(--nr);
+    m_lc->loggedInAs()->removeAccount(nr);
 }

@@ -7,12 +7,15 @@
 /**
  * Constructor of LoginController. Creates a new instance of LoginController.
  */
-LoginController::LoginController() {
+LoginController::LoginController()
+{
     m_loader = new Loader("User.csv");
 }
 
-LoginController & LoginController::getInstance() {
-    return m_lc;
+LoginController * LoginController::getInstance() {
+    if (m_self == nullptr)
+         m_self = new LoginController();
+    return m_self;
 }
 
 /**
@@ -89,5 +92,5 @@ void LoginController::save(){
 }
 
 void LoginController::load(){
-    m_loader->load(); //TODO unserialize
+    unserialize(m_loader->load());
 }
