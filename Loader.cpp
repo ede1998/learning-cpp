@@ -4,28 +4,28 @@
 
 #include "Loader.h"
 
-Loader::Loader(string filename) {
- stream = new fstream(filename);
+Loader::Loader(const string &filename)
+        : m_filename(filename)
+{
 }
 
 Loader::~Loader() {
-    stream->close();
-    delete stream;
-    stream = nullptr;
 }
 
 string Loader::load() {
+    std::ifstream stream(m_filename);
     string str = "";
-    *stream >> str;
+    stream >> str;
     return str;
 }
 
 void Loader::save(string serializedObj) {
-    *stream << serializedObj;
+    std::ofstream stream(m_filename);
+    stream << serializedObj;
 }
 
 vector<string> split(string str, char delimiter) {
-    stringstream ss(str);
+    std::stringstream ss(str);
     vector<string> result;
 
     while( ss.good() )

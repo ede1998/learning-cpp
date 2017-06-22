@@ -3,5 +3,5 @@ project(lib_user)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES User.h User.cpp LoginController.h LoginController.cpp)
+set(SOURCE_FILES User.h User.cpp LoginController.h LoginController.cpp md5.cpp md5.h)
 add_library(lib_user ${SOURCE_FILES})

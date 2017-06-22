@@ -27,7 +27,7 @@ Account::Account(string owner, string contact, string bankCode, int ID, int inau
           type(type)
 {
     m_contact = contact;
-    if (ID > nextID) nextID = ID+1;
+    if (ID >= nextID) nextID = ID+1;
 }
 
 int Account::getBalance() const {

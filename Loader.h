@@ -9,18 +9,19 @@
 #include <vector>
 #include <sstream>
 
-using namespace std;
+using std::string;
+using std::vector;
 
 class Loader {
 public:
-    Loader(string filename);
+    Loader(const string &filename);
     ~Loader();
 
 
     string load();
     void save(string serializedObj);
 private:
-    fstream * stream;
+    const string m_filename;
 };
 
 vector<string> split(string str, char delimiter);

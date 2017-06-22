@@ -4,6 +4,7 @@
 
 #include "User.h"
 #include "../lib-accounts/BankController.h"
+#include "md5.h"
 
 /**
  * Constructor of class User. Creates a new User and takes a username and a password as parameter.
@@ -12,8 +13,7 @@
  * @param pwd Password for the user
  */
 User::User(const string &m_name, const string &pwd) : m_name(m_name) {
-    hash<string> hashedPwd = hash<string>();
-    m_pwd = hashedPwd(pwd);
+    m_pwd = md5(pwd);
 }
 
 User::User(const string &m_name, const string &pwd, char dummy) : m_name(m_name) {
@@ -29,10 +29,7 @@ User::~User() {
  * @return Returns true if password hashes equal, false otherwise
  */
 bool User::isCorrectPassword(string pwd) {
-    hash<string> hashedPwd = hash<string>();
-    string test;
-    test = hashedPwd(pwd);
-    return  test == m_pwd;
+    return  md5(pwd) == m_pwd;
 }
 /**
  * Returns the username.
@@ -80,12 +77,12 @@ string User::serialize() {
     string acc = "";
     BankController * bc = BankController::getInstance();
     for (int id: m_accounts) {
-        shared_ptr<Account> as = bc->getAccountById(id).lock();
-        acc += as->ID + ",";
+        acc += to_string(id) + ",";
     }
     if (acc.length() != 0)
       acc[acc.length() - 1] = 0;
-    return m_name + "," + m_pwd + "," + acc;
+    string res = m_name + "," + m_pwd + "," + acc;
+    return res;
 }
 
 unique_ptr<User> User::unserialize(string serializedObj) {
@@ -93,7 +90,7 @@ unique_ptr<User> User::unserialize(string serializedObj) {
 
     string name = str[0];
     string pwd = str[1];
-    int IDs[str.size() - 3];
+    int IDs[str.size() - 2];
     for (int i = 0; i < str.size() - 2; i++)
         IDs[i] = atoi(str[i + 2].c_str());
 
