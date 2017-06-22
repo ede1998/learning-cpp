@@ -22,14 +22,17 @@ public:
                                                         const string &bankCode, int minimumTerm);
     void removeAccount(const int id);
 
-    string serialize();
-    void unserialize(string serializedObj);
+
 
     void save();
     void load();
 private:
     BankController();
-    static BankController * m_self;
+
+    string serialize();
+    void unserialize(string serializedObj);
+
+    static BankController * s_instance;
     vector<shared_ptr<Account>> m_accounts;
     Loader * m_loader;
 };

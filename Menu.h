@@ -25,5 +25,8 @@ private:
     void createBankAccount();
 
     void deleteBankAccount();
+
+    void load();
+    void save();
 };
 

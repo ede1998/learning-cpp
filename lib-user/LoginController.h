@@ -18,16 +18,14 @@ public:
     bool addUser(string name, string pwd);
     bool login(string name, string pwd);
     shared_ptr<User> loggedInAs() const;
-    string serialize();
-
 
     void save();
     void load();
 private:
     LoginController();
     void unserialize(string serializedObj);
-
-    static LoginController * m_self;
+    string serialize();
+    static LoginController * s_instance;
 
     vector<shared_ptr<User>> m_users;
     shared_ptr<User> m_activeUser;

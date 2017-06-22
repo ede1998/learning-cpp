@@ -25,6 +25,8 @@ void Menu::printMain() {
     cout << "(0) Quit program" << endl;
     cout << "(1) Login" << endl;
     cout << "(2) Create new user account" << endl;
+    cout << "(3) Load Database" << endl;
+    cout << "(4) Save Database" << endl;
 }
 
 void Menu::createUserAccount() {
@@ -64,6 +66,12 @@ bool Menu::main() {
         case 2: //Create Account
             createUserAccount();
             break;
+        case 3: //Load Database
+            load();
+            break;
+        case 4: //Save Database
+            save();
+            break;
         case 0: //Quit program
             return false;
         }
@@ -76,7 +84,7 @@ void Menu::showAccounts() {
     cout << "NR\tType\tNumber\tBank-Code\tBalance" << endl;
     for (int i = 0; i < user->getAccountsLength(); i++) {
         const shared_ptr<Account> acc = m_bc->getAccountById(user->getAccount(i)).lock();
-        cout << i+1 << "\t" << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
+        cout << acc->ID << "\t" << acc->getName() << "\t" << acc->accountNumber << "\t" << acc->bankCode << "\t" << acc->getBalance() << endl;
     }
 
 }
@@ -169,4 +177,14 @@ void Menu::deleteBankAccount() {
     int nr;
     cin >> nr;
     m_lc->loggedInAs()->removeAccount(nr);
+}
+
+void Menu::load() {
+    m_lc->load();
+    m_bc->load();
+}
+
+void Menu::save() {
+    m_bc->save();
+    m_lc->save();
 }

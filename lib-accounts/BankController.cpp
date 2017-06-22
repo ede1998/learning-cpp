@@ -7,11 +7,12 @@
 #include "BuildingLoanContract.h"
 #include "InstantAccessSavingsAccount.h"
 
+BankController * BankController::s_instance = 0;
 
 BankController * BankController::getInstance() {
-    if (m_self == nullptr)
-        m_self = new BankController();
-    return m_self;
+    if (!s_instance)
+        s_instance = new BankController();
+    return s_instance;
 }
 BankController::BankController()
 {

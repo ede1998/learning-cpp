@@ -4,6 +4,8 @@
 
 #include "LoginController.h"
 
+
+LoginController * LoginController::s_instance = 0;
 /**
  * Constructor of LoginController. Creates a new instance of LoginController.
  */
@@ -13,9 +15,9 @@ LoginController::LoginController()
 }
 
 LoginController * LoginController::getInstance() {
-    if (m_self == nullptr)
-         m_self = new LoginController();
-    return m_self;
+    if (!s_instance)
+        s_instance = new LoginController();
+    return s_instance;
 }
 
 /**
